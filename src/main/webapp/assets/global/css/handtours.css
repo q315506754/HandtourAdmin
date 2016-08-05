@@ -1,0 +1,26 @@
+.col-md-1d5 {
+    width: 11.6667%;
+}
+.col-md-1d5{
+    float: left;
+}
+.col-md-1d5{
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 1px;
+    position: relative;
+}
+
+.col-md-3, .col-md-2 {
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 1px;
+    position: relative;
+}
+.form-group {
+    margin: 8px 0 8px 0;
+}
+
+.form .form-body, .portlet-form .form-body {
+    padding: 1px;
+}

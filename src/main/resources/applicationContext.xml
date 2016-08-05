@@ -16,6 +16,9 @@
               <property name="suffix" value=".jsp"/>
        </bean>
        <mvc:resources mapping="/assets/**" location="/assets/" />
+       <mvc:resources mapping="/js/**" location="/js/" />
+       <mvc:resources mapping="/tpl/**" location="/tpl/" />
+       <mvc:resources mapping="/views/**" location="/views/" />
 
        <mvc:interceptors>
               <bean class="com.handtours.filter.PathFilter" />
