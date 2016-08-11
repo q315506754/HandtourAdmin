@@ -57,15 +57,32 @@ HandtoursApp.directive('a', function() {
 
 //bootstrap switch
 HandtoursApp.directive("bsSwitch",function(){
+
     return {
         restrict: 'A',
         require: 'ngModel',
         link: function(scope,element,attrs,ngModelCtrl){
+
             $(element).bootstrapSwitch({
                 onSwitchChange: function(event,state){
                     scope.$apply(function() {
+                        // console.log(element);
+                        // console.log(state);
+                        // console.log(ngModelCtrl);
                         ngModelCtrl.$setViewValue(state);
                     })
+                }
+                ,
+                onInit: function(event,state){
+                    // console.log(arguments);
+                    var ch = $(event.target).attr("checked") != '';
+                    // console.log(ch);
+                    // console.log(state);
+                    // console.log(ngModelCtrl);
+                    // $(event.target).bootstrapSwitch("state",ch);
+                    // scope.$apply(function() {
+                    //     ngModelCtrl.$setViewValue(ch);
+                    // })
                 }
             })
         }

@@ -379,7 +379,16 @@ HandtoursApp.config(['$stateProvider', '$urlRouterProvider', function($stateProv
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
                             '../assets/global/plugins/angularjs/plugins/ui-select/select.min.css',
-                            '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js'
+                            '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js',
+
+                            '../assets/global/plugins/datatables/datatables.min.css',
+                            '../assets/global/css/handtours.css',
+
+                            '../assets/global/plugins/datatables/datatables.all.min.js',
+                            '../assets/global/scripts/datatable.js',
+                            '../assets/global/scripts/jQuery.md5.js',
+
+                            '../assets/pages/scripts/profile/user.js',
                         ]
                     }, {
                         name: 'HandtoursApp',

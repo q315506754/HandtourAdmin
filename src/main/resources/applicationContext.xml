@@ -9,8 +9,6 @@
        <mvc:annotation-driven />
        <context:annotation-config />
 
-       <context:property-placeholder location="classpath:application.properties" />
-
        <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
               <property name="prefix" value="/views/"/>
               <property name="suffix" value=".jsp"/>

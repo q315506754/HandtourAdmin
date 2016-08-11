@@ -20,4 +20,6 @@ public class RecommendCategoryController {
         log.info(JSONObject.fromObject(rc));
         return "";
     }
+
+
 }
