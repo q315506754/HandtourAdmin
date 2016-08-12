@@ -75,14 +75,7 @@ HandtoursApp.directive("bsSwitch",function(){
                 ,
                 onInit: function(event,state){
                     // console.log(arguments);
-                    var ch = $(event.target).attr("checked") != '';
-                    // console.log(ch);
-                    // console.log(state);
-                    // console.log(ngModelCtrl);
-                    // $(event.target).bootstrapSwitch("state",ch);
-                    // scope.$apply(function() {
-                    //     ngModelCtrl.$setViewValue(ch);
-                    // })
+                    // var ch = $(event.target).attr("checked") != '';
                 }
             })
         }

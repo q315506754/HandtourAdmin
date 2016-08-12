@@ -143,6 +143,185 @@ HandtoursApp.controller('FooterController', ['$scope', function($scope) {
     });
 }]);
 
+HandtoursApp.service('alertMsg',[function(){
+    toastr.options = {
+        "positionClass": "toast-top-center",
+        "showDuration": "1000",
+        "hideDuration": "1000",
+        "timeOut": "5000"
+    }
+
+    this.success = function (msg,title) {
+        toastr["success"](msg, title);
+    }
+    this.fail = function (msg,title) {
+        // toastr["error"](msg, title);
+        alert(msg);
+    }
+    this.warn = function (msg,title) {
+        toastr["warning"](msg, title);
+    }
+}]);
+
+HandtoursApp.service('crudConfig',['$rootScope','$http', 'alertMsg',function($rootScope,$http,alertMsg){
+    this.config=function (curscope,dtTable) {
+        curscope.forms={
+            _scope:curscope,
+            div:{
+                create:"modal_create",
+                update:"modal_edit",
+                delete:"modal_delete"
+            },
+            url:{
+                create:"/user/save",
+                update:"/user/update",
+                delete:"/user/delete",
+            },
+            name:{
+                create:"保存",
+                update:"更新",
+                delete:"删除",
+            },
+            formName:{
+                create:"createForm",
+                update:"updateForm",
+                delete:"deleteForm",
+            },
+            form:{
+                create:{_mode:"create"},
+                update:{_mode:"update"},
+                delete:{_mode:"delete"}
+            },
+            formDefault:{
+                create:{_mode:"create"},
+                update:{_mode:"update"},
+                delete:{_mode:"delete"}
+            },
+            reset:function (mode) {
+                this.onResetEvent[mode].apply(this,Array.prototype.slice.call(arguments, 1));
+            },
+            onResetEvent: {
+                create: function () {
+                    this.resetEventCommon('create');
+
+                    var $this = this;
+                    this._scope.$apply(function () {
+                        var newData = $.extend({},$this.formDefault.create);
+                        console.log(newData);
+                        $this.form.create = newData;
+                    });
+                },update: function () {
+                    this.resetEventCommon('update');
+                },delete: function () {
+                    this.resetEventCommon('delete');
+                },
+            },
+            resetEventCommon:function (mode) {
+                // $("#"+this.div[mode]).find("form")[0].reset();
+
+                if (this._scope[this.formName[mode]]) {
+                    this._scope[this.formName[mode]].$setPristine();
+                    this._scope[this.formName[mode]].$setUntouched();
+                }
+            },
+            dataApi:function () {
+                return dtTable.api();
+            },
+            refreshData:function(){
+                this.dataApi().ajax.reload();
+            },
+            alertMsg:function(msg){
+                alertMsg.fail(msg);
+            },
+            beforeRequest:{
+                create:function (l_params) {
+                    return true;
+                },
+                update:function (l_params) {
+                    return true;
+                },
+                delete:function (l_params) {
+                    return true;
+                }
+            },
+            submit:function(form) {
+                // console.log(this);
+                var mode = form._mode;
+                var l_params = $.extend({},this.formDefault[mode],form);
+                var reqUrl = this.url[mode];
+                var name = this.name[mode];
+                var $this = this;
+                // console.log(form);
+                // console.log(l_params);
+
+                if(!this.beforeRequest[mode].apply(this,[l_params])){
+                    return;
+                }
+
+                $http({
+                    method:"POST",
+                    url:reqUrl,
+                    params:l_params,
+                }).success(function(res){
+                    if (res.code==0) {
+                        // $this.alertMsg(name+"成功");
+                        alertMsg.success(name+"成功");
+                        $this.refreshData();
+                        $this.close(mode);
+                    } else{
+                        alertMsg.fail(res.msg);
+                        // $this.alertMsg(res.msg);
+                    }
+                }).error(function(res){
+                    // $this.alertMsg(name+"失败");
+                    alertMsg.fail(name+"失败","错误");
+                })
+            },
+            open:function(mode) {
+                // this.onOpenDefault(this.div[mode]);
+                // console.log(typeof arguments);
+                // console.log( arguments);
+                this.onOpenEvent[mode].apply(this,Array.prototype.slice.call(arguments, 1));
+            },
+            onOpenEvent:{
+                create:function () {
+                    this.reset('create');
+
+                    this.openDialog('create');
+                },
+                update:function (rowData) {
+                    this.reset('update');
+
+                    // console.log(rowData);
+                    var $this = this;
+                    this._scope.$apply(function () {
+                        var newData = $.extend({},$this.formDefault.update,rowData);
+                        // console.log(newData);
+                        $this.form.update = newData;
+                    });
+
+                    this.openDialog('update');
+                },
+                delete:function () {
+                    this.reset('delete');
+
+                    this.openDialog('delete');
+                }
+            },
+            openDialog:function (mode) {
+                $("#"+this.div[mode]).modal();
+            },
+            close:function(mode) {
+                this.onCloseDefault(this.div[mode]);
+            },
+            onCloseDefault:function (div) {
+                $("#"+div).modal('hide');
+            }
+
+        }
+    }
+
+}]);
 
 
 /* Setup Rounting For All Pages */

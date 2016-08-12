@@ -47,19 +47,22 @@ var initUserTable = function (_scope) {
                     // getModelByNgName('modal_edit','password').val("");
                     // getModelByNgName('modal_edit','secondPassword').val("");
                     getModelByNgName('modal_edit','enable').bootstrapSwitch("state",rowData.enable);
-                    _scope.$apply(function () {
-                        _scope.updateForm = rowData;
+                    // _scope.$apply(function () {
+                    //     _scope.updateForm = rowData;
+                    // });
 
-                    });
-
-                    $('#modal_edit').modal();
+                    // $('#modal_edit').modal();
+                    // _scope.openEditForm();
+                    _scope.forms.open('update',rowData);
                 });
                 $(td).find(".deleteHref").click(function () {
                     // console.log(rowData);
-                    var cf = confirm("确认删除该用户吗?");
-                    if (cf) {
-                        _scope.deleteForm(rowData);
-                    }
+                    // var cf = confirm("确认删除该用户吗?");
+                    // if (cf) {
+                    //     _scope.deleteForm(rowData);
+                    // }
+
+                    _scope.forms.open('delete',rowData);
                 });
             }
             },
@@ -92,8 +95,16 @@ var initUserTable = function (_scope) {
                 text: '新建用户',
                 className: 'btn blue btn-outline',
                 action: function ( e, dt, node, config ) {
-                    $('#modal_create form')[0].reset();
-                    $('#modal_create').modal();
+                    _scope.forms.open('create');
+                }
+            },
+            {
+                text: '刷新数据',
+                className: 'btn yellow btn-outline',
+                action: function ( e, dt, node, config ) {
+                    _scope.forms.refreshData();
+
+                    toastr["success"]("数据已刷新");
                 }
             },
             { extend: 'print', className: 'btn dark btn-outline' },

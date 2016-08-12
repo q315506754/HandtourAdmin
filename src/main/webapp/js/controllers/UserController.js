@@ -1,105 +1,55 @@
 /**
  * Created by zhawei on 2016-7-17.
  */
-angular.module('HandtoursApp').controller('UserController', ['$rootScope', '$scope', 'settings', '$http',function($rootScope, $scope, settings,$http) {
+angular.module('HandtoursApp').controller('UserController', ['$rootScope', '$scope', 'settings', '$http','crudConfig',function($rootScope, $scope, settings,$http,crudConfig) {
     $scope.$on('$viewContentLoaded', function() {
         // initialize core components
         App.initAjax();
-        $scope.dataTable = initUserTable($scope);
+
         // console.log($scope.dataTable);
 
         // set default layout mode
         $rootScope.settings.layout.pageContentWhite = true;
         $rootScope.settings.layout.pageBodySolid = false;
         $rootScope.settings.layout.pageSidebarClosed = false;
+
+
+        var dtTable = initUserTable($scope);
+
+        crudConfig.config($scope,dtTable);
+
+        //extend
+        $scope.forms.onOpenEvent.delete=function (rowData) {
+            var cf = confirm("确认删除该用户吗?");
+            if (cf) {
+                this.submit($.extend({},this.formDefault.delete,rowData));
+            }
+        }
+
+        $scope.forms.formDefault.create.enable=true;
+        var bfCheck = function (l_param) {
+            // console.log('bfcheck');
+            // console.log(l_param);
+            if (l_param.password != undefined || l_param.secondPassword!= undefined){
+                if (l_param.password != l_param.secondPassword){
+                    this.alertMsg('密码不一致');
+                    return false;
+                }
+                l_param.password = $.md5(l_param.password);
+                l_param.secondPassword = $.md5(l_param.secondPassword);
+            }
+
+            return true;
+        };
+
+        $scope.forms.beforeRequest.create =bfCheck;
+        $scope.forms.beforeRequest.update =bfCheck;
+        $scope.forms.name={
+            create:"账号保存",
+            update:"账号更新",
+            delete:"账号删除"
+        };
+
     });
 
-    $scope.submitForm = function(form){
-        // console.log(form);
-        // console.log(form.isEnable);
-
-        if (form.enable == undefined) {
-            form.enable = true;
-        }
-
-        form.password = $.md5(form.password);
-        form.secondPassword = $.md5(form.secondPassword);
-
-        $http({
-            method:"POST",
-            url:"/user/save",
-            params:form,
-        }).success(function(res){
-            console.log(res);
-            if (res.code==0) {
-                alert("保存成功");
-
-                $scope.refreshData();
-            } else{
-                alert(res.msg);
-            }
-        }).error(function(res){
-            // console.log(res);
-            alert("保存失败");
-        })
-    }
-    $scope.openEditForm=function () {
-
-    }
-
-    $scope.submitEditForm= function(form){
-        console.log('submitEditForm');
-
-        if (form.password != null && form.secondPassword!=null){
-            form.password = $.md5(form.password);
-            form.secondPassword = $.md5(form.secondPassword);
-        }
-        
-        $http({
-            method:"POST",
-            url:"/user/update",
-            params:form,
-        }).success(function(res){
-            // console.log(res);
-            if (res.code==0) {
-                alert("更新成功");
-
-                $scope.refreshData();
-            } else{
-                alert(res.msg);
-            }
-        }).error(function(res){
-            // console.log(res);
-            alert("更新失败");
-        })
-
-    }
-
-
-    $scope.refreshData = function () {
-        $scope.dataTable.api().ajax.reload();
-    }
-
-    $scope.deleteForm= function(form){
-        // console.log('deleteForm');
-
-        $http({
-            method:"POST",
-            url:"/user/delete",
-            params:form,
-        }).success(function(res){
-            console.log(res);
-            if (res.code==0) {
-                alert("删除成功");
-
-                $scope.refreshData();
-            } else{
-                alert(res.msg);
-            }
-        }).error(function(res){
-            // console.log(res);
-            alert("删除失败");
-        })
-
-    }
 }]);

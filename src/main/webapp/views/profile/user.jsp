@@ -282,37 +282,64 @@
                         aria-hidden="true"></button>
                 <h4 class="modal-title">新建用户</h4>
             </div>
-            <form action="#" ng-submit="submitForm(rc)" class="form-horizontal ">
+            <form  name="createForm" ng-submit="forms.submit(forms.form.create)" class="form-horizontal" novalidate>
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="col-md-4 control-label">姓名<span class="red">*</span></label>
 
                         <div class="col-md-5">
-
-                            <input type="text" ng-model="rc.name" class="form-control"/></div>
+                            <input type="text" name="name" ng-model="forms.form.create.name" class="form-control" ng-minlength="2" ng-maxlength="10" required/>
+                        </div>
 
                     </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4"></div>
+                        <span class="col-md-5" style="color:red" ng-show="createForm.name.$dirty && createForm.name.$invalid">
+                            <span ng-show="createForm.name.$error.required">请输入用户名</span>
+                            <span ng-show="createForm.name.$error.minlength">用户名应该在2~10个之间</span>
+                            <span ng-show="createForm.name.$error.maxlength">用户名应该在2~10个之间</span>
+                          </span>
+                    </div>
+
                     <div class="form-group">
                         <label class="col-sm-4 control-label">手机<span class="red">*</span></label>
 
                         <div class="col-sm-5">
-                            <input type="text" ng-model="rc.mobile" class="form-control"/>
+                            <input type="number" name="mobile" ng-model="forms.form.create.mobile" class="form-control" required/>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4"></div>
+                        <span class="col-md-5" style="color:red" ng-show="createForm.mobile.$dirty && createForm.mobile.$invalid">
+                            <span ng-show="createForm.mobile.$error.required">请输入手机号</span>
+                            <span ng-show="createForm.mobile.$error.number">手机号应该为数字</span>
+                          </span>
+                    </div>
+
                     <div class="form-group">
                         <label class="col-sm-4 control-label">邮箱</label>
 
                         <div class="col-sm-5">
-                            <input type="text" ng-model="rc.email" class="form-control"/>
+                            <input type="email"  name="email" ng-model="forms.form.create.email" class="form-control"/>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4"></div>
+                        <span class="col-md-5" style="color:red" ng-show="createForm.email.$dirty && createForm.email.$invalid">
+                            <span ng-show="createForm.email.$error.email">请输入正确的邮箱</span>
+                          </span>
+                    </div>
+
                     <div class="form-group">
                         <label class="col-sm-4 control-label">启用<span class="red">*</span></label>
 
                         <div class="col-sm-5">
 
                             <%--<input type="text"  class="form-control"/>--%>
-                            <input type="checkbox" ng-model="rc.enable" data-bs-switch checked class="make-switch" data-size="normal" />
+                            <input type="checkbox" ng-model="forms.form.create.enable" data-bs-switch checked class="make-switch" data-size="normal" />
                             </p>
                         </div>
                     </div>
@@ -323,21 +350,37 @@
                         <label class="col-sm-4 control-label">密码<span class="red">*</span></label>
 
                         <div class="col-sm-5">
-                            <input type="password" ng-model="rc.password" class="form-control"/>
+                            <input type="password"  name="password" ng-model="forms.form.create.password" class="form-control" required/>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4"></div>
+                        <span class="col-md-5" style="color:red" ng-show="createForm.password.$dirty && createForm.password.$invalid">
+                            <span ng-show="createForm.password.$error.required">请输入密码</span>
+                          </span>
+                    </div>
+
+
                     <div class="form-group">
                         <label class="col-sm-4 control-label">确认密码<span class="red">*</span></label>
 
                         <div class="col-sm-5">
-                            <input type="password" ng-model="rc.secondPassword" class="form-control"/>
+                            <input type="password"  name="secondPassword" ng-model="forms.form.create.secondPassword" class="form-control" required/>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4"></div>
+                        <span class="col-md-5" style="color:red" ng-show="createForm.secondPassword.$dirty && createForm.secondPassword.$invalid">
+                            <span ng-show="createForm.secondPassword.$error.required">请再次输入密码</span>
+                          </span>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn dark btn-outline" data-dismiss="modal">取 消
                     </button>
-                    <button type="submit" class="btn green">保 存</button>
+                    <button type="submit" class="btn green" ng-disabled="createForm.$pristine || createForm.$invalid">保 存</button>
                 </div>
             </form>
 
@@ -355,39 +398,46 @@
                         aria-hidden="true"></button>
                 <h4 class="modal-title">编辑用户</h4>
             </div>
-            <form action="#" ng-submit="submitEditForm(updateForm)" class="form-horizontal ">
-                <%--<input type="hidden" ng-model="rc.mobile" />--%>
-                <input type="hidden" ng-model="rc.lastUpdateTimeTs"/>
+            <form  name="updateForm" ng-submit="forms.submit(forms.form.update)" class="form-horizontal ">
+                <%--<input type="hidden" ng-model="updateForm.mobile" />--%>
+                <input type="hidden" ng-model="updateForm.lastUpdateTimeTs"/>
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="col-md-4 control-label">姓名<span class="red">*</span></label>
 
                         <div class="col-md-5">
 
-                            <input type="text" ng-model="updateForm.name" class="form-control"/></div>
+                            <input type="text"  name="name" ng-model="forms.form.update.name" class="form-control"/></div>
 
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">手机<span class="red">*</span></label>
 
                         <div class="col-sm-5">
-                            <input disabled type="text" ng-model="updateForm.mobile" class="form-control"/>
+                            <input disabled type="text"  name="mobile" ng-model="forms.form.update.mobile" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">邮箱</label>
 
                         <div class="col-sm-5">
-                            <input type="text" ng-model="updateForm.email" class="form-control"/>
+                            <input type="email"  name="email" ng-model="forms.form.update.email" class="form-control"/>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-md-4"></div>
+                        <span class="col-md-5" style="color:red" ng-show="updateForm.email.$dirty && updateForm.email.$invalid">
+                            <span ng-show="updateForm.email.$error.email">请输入正确的邮箱</span>
+                          </span>
+                    </div>
+
                     <div class="form-group">
                         <label class="col-sm-4 control-label">启用<span class="red">*</span></label>
 
                         <div class="col-sm-5">
 
                             <%--<input type="text"  class="form-control"/>--%>
-                            <input type="checkbox" ng-model="updateForm.enable" data-bs-switch checked class="make-switch" data-size="normal">
+                            <input type="checkbox" ng-model="forms.form.update.enable" data-bs-switch checked class="make-switch" data-size="normal">
                             </p>
                         </div>
                     </div>
@@ -398,21 +448,21 @@
                         <label class="col-sm-4 control-label">密码<span class="red">*</span></label>
 
                         <div class="col-sm-5">
-                            <input type="password" ng-model="updateForm.password" class="form-control"/>
+                            <input type="password"  name="password" ng-model="forms.form.update.password" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">确认密码<span class="red">*</span></label>
 
                         <div class="col-sm-5">
-                            <input type="password" ng-model="updateForm.secondPassword" class="form-control"/>
+                            <input type="password"  name="secondPassword" ng-model="forms.form.update.secondPassword" class="form-control"/>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn dark btn-outline" data-dismiss="modal">取 消
                     </button>
-                    <button type="submit" class="btn green">保 存</button>
+                    <button type="submit" class="btn green" ng-disabled="updateForm.$pristine || updateForm.$invalid">保 存</button>
                 </div>
             </form>
 

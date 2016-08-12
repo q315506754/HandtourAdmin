@@ -33,6 +33,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <link href="${basePath}/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+    <link href="${basePath}/assets/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN DYMANICLY LOADED CSS FILES(all plugin and page related styles must be loaded between GLOBAL and THEME css files ) -->
     <link id="ng_load_plugins_before" />
@@ -112,6 +113,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <%--<script src="${basePath}/assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>--%>
 <script src="${basePath}/assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
 <script src="${basePath}/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+<script src="${basePath}/assets/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>
 <!-- END CORE JQUERY PLUGINS -->
 <!-- BEGIN CORE ANGULARJS PLUGINS -->
 <script src="${basePath}/assets/global/plugins/angularjs/angular.min.js" type="text/javascript"></script>
