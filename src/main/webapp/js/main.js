@@ -107,9 +107,93 @@ initialization can be disabled and Layout.init() should be called on page load c
 ***/
 
 /* Setup Layout Part - Header */
-HandtoursApp.controller('HeaderController', ['$scope', function($scope) {
+HandtoursApp.controller('HeaderController', ['$rootScope','$scope','crudConfig','$http', function($rootScope,$scope,crudConfig,$http) {
     $scope.$on('$includeContentLoaded', function() {
         Layout.initHeader(); // init header
+
+        crudConfig.config($scope);
+        // console.log($scope.forms);
+        $scope.forms.div.update = "modal_header_update_user";
+        $scope.forms.url.update = "/user/update";
+
+
+
+        var bfCheck = function (l_param) {
+            if (l_param.password != undefined || l_param.secondPassword!= undefined){
+                if (l_param.password != l_param.secondPassword){
+                    this.alertMsg('密码不一致');
+                    return false;
+                }
+                l_param.password = $.md5(l_param.password);
+                l_param.secondPassword = $.md5(l_param.secondPassword);
+            }
+
+            return true;
+        };
+        $scope.forms.beforeRequest.update =bfCheck;
+        $scope.forms.postSuccessEvent.update =function (res) {
+            $rootScope.refreshHeaderUser();
+        };
+        $scope.forms.onOpenEvent.update = function () {
+            // console.log('aaa');
+            // $("#myAvatar").removeAttr("src") ;
+            $("#myAvatar").show();
+            $("#changedAvatar").hide();
+
+            var $this = this;
+
+            $http({
+                method:"POST",
+                url:"/info"
+            }).success(function(res){
+                $this.form.update =$.extend({},$this.formDefault.update,res);
+
+                $this.openDialog('update');
+
+                $('.modal-backdrop').remove();
+
+            }).error(function(res){
+                $this.alertMsg('出现了异常');
+            });
+
+        };
+
+
+        $scope.changeAvatar = function () {
+            $("#uploadForm :file").trigger("click");
+        }
+
+        $("#uploadForm :file").change(function () {
+
+            $("#myAvatar").hide();
+            $("#changedAvatar").show();
+
+            var objUrl = getObjectURL(this.files[0]) ;
+            if (objUrl) {
+                $("#changedAvatar").attr("src", objUrl) ;
+            }
+
+            $("#uploadForm").ajaxSubmit({
+                success     : function (data){
+                    $scope.$apply(function () {
+                        $scope.forms.form.update.avatarKey = data;
+                    });
+                }
+            });
+        });
+
+        var getObjectURL= function (file) {
+            var url = null ;
+            if (window.createObjectURL!=undefined) { // basic
+                url = window.createObjectURL(file) ;
+            } else if (window.URL!=undefined) { // mozilla(firefox)
+                url = window.URL.createObjectURL(file) ;
+            } else if (window.webkitURL!=undefined) { // webkit or chrome
+                url = window.webkitURL.createObjectURL(file) ;
+            }
+            return url ;
+        }
+
     });
 }]);
 
@@ -225,10 +309,14 @@ HandtoursApp.service('crudConfig',['$rootScope','$http', 'alertMsg',function($ro
                 }
             },
             dataApi:function () {
-                return dtTable.api();
+                if(dtTable){
+                    return dtTable.api();
+                }
             },
             refreshData:function(){
-                this.dataApi().ajax.reload();
+                if(this.dataApi()){
+                    this.dataApi().ajax.reload();
+                }
             },
             alertMsg:function(msg){
                 alertMsg.fail(msg);
@@ -251,12 +339,20 @@ HandtoursApp.service('crudConfig',['$rootScope','$http', 'alertMsg',function($ro
                 var reqUrl = this.url[mode];
                 var name = this.name[mode];
                 var $this = this;
+
+                // console.log(mode);
                 // console.log(form);
+                // console.log(reqUrl);
+                // console.log(name);
                 // console.log(l_params);
 
-                if(!this.beforeRequest[mode].apply(this,[l_params])){
-                    return;
+                if (this.beforeRequest[mode] !=undefined){
+                    if(!this.beforeRequest[mode].apply(this,[l_params])){
+                        return;
+                    }
                 }
+
+
 
                 $http({
                     method:"POST",
@@ -268,6 +364,7 @@ HandtoursApp.service('crudConfig',['$rootScope','$http', 'alertMsg',function($ro
                         alertMsg.success(name+"成功");
                         $this.refreshData();
                         $this.close(mode);
+                        $this.postSuccess(mode,res);
                     } else{
                         alertMsg.fail(res.msg);
                         // $this.alertMsg(res.msg);
@@ -282,6 +379,35 @@ HandtoursApp.service('crudConfig',['$rootScope','$http', 'alertMsg',function($ro
                 // console.log(typeof arguments);
                 // console.log( arguments);
                 this.onOpenEvent[mode].apply(this,Array.prototype.slice.call(arguments, 1));
+            },
+            postSuccess:function(mode) {
+                if (this.postSuccessEvent[mode]){
+                    this.postSuccessEvent[mode].apply(this,Array.prototype.slice.call(arguments, 1));
+                }
+            },
+            postSuccessEvent:{
+                create:function (res) {
+                },
+                update:function (res) {
+                },
+                delete:function (res) {
+                }
+            },
+            initialize:function(mode) {
+                this.div[mode] = "modal_"+mode;
+                this.formDefault[mode] = {_mode:mode};
+                this.form[mode] = {_mode:mode};
+                this.formName[mode] = mode+"Form";
+                this.name[mode] = "功能"+mode;
+                this.onOpenEvent[mode] = function () {
+                    this.reset(mode);
+
+                    this.openDialog(mode);
+                };
+                this.onResetEvent[mode] = function () {
+                    this.resetEventCommon(mode);
+                };
+
             },
             onOpenEvent:{
                 create:function () {
@@ -508,7 +634,15 @@ HandtoursApp.config(['$stateProvider', '$urlRouterProvider', function($stateProv
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
                             '../assets/global/plugins/angularjs/plugins/ui-select/select.min.css',
-                            '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js'
+                            '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js',
+
+                            '../assets/global/plugins/datatables/datatables.min.css',
+                            '../assets/global/css/handtours.css',
+
+                            '../assets/global/plugins/datatables/datatables.all.min.js',
+                            '../assets/global/scripts/datatable.js',
+
+                            '../assets/pages/scripts/guide/card.js',
                         ]
                     }, {
                         name: 'HandtoursApp',
@@ -565,7 +699,7 @@ HandtoursApp.config(['$stateProvider', '$urlRouterProvider', function($stateProv
 
                             '../assets/global/plugins/datatables/datatables.all.min.js',
                             '../assets/global/scripts/datatable.js',
-                            '../assets/global/scripts/jQuery.md5.js',
+                            // '../assets/global/scripts/jQuery.md5.js',
 
                             '../assets/pages/scripts/profile/user.js',
                         ]
@@ -964,7 +1098,53 @@ HandtoursApp.config(['$stateProvider', '$urlRouterProvider', function($stateProv
 }]);
 
 /* Init global settings and run the app */
-HandtoursApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
+HandtoursApp.run(["$rootScope", "settings", "$state","$http", function($rootScope, settings, $state,$http) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
+    $rootScope.initialPageLength=10;
+
+    $rootScope.header = {};
+    $rootScope.config = {};
+
+    $rootScope.refreshHeaderUser = function () {
+        $http({
+            method:"POST",
+            url:"/info"
+        }).success(function(res){
+            $rootScope.header.user = res;
+            $rootScope.header.user.hasAvatar = res.avatarUrl?true:false;
+        })
+    }
+
+    $rootScope.refreshConfig = function () {
+        $http({
+            method:"POST",
+            url:"/config"
+        }).success(function(res){
+            $rootScope.config = res;
+        })
+    }
+
+    $rootScope.getHeaderUser = function () {
+        return $rootScope.header.user;
+    }
+
+    $rootScope.refreshHeaderUser();
+    $rootScope.refreshConfig();
+
+    $rootScope.dataTable_language_cn = {
+        "sLengthMenu": " _MENU_ 记录",
+        "sZeroRecords": "对不起，查询不到任何相关数据",
+        "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+        "sInfoEmpty": "找不到相关数据",
+        "sInfoFiltered": "数据表中共为 _MAX_ 条记录)",
+        "sProcessing": "正在加载中...",
+        "sSearch": "搜索",
+        "oPaginate": {
+        "sFirst": "第一页",
+            "sPrevious": " 上一页 ",
+            "sNext": " 下一页 ",
+            "sLast": " 最后一页 "
+    }
+    }
 }]);

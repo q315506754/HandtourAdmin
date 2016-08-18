@@ -2,11 +2,7 @@
   用户管理
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<style type="text/css">
-    .red{
-        color: red;
-    }
-</style>
+
 
 <div class="page-bar">
   <ul class="page-breadcrumb">
@@ -22,115 +18,10 @@
 
 </div>
 
-<%--<a class="btn red btn-outline sbold" data-target="#draggable_ddd" data-toggle="modal" href="#"> View Demo </a>--%>
-<%--<div class="row" >--%>
 <div class="row" data-ng-controller="UserController">
 
   <br/>
 
-  <%--<div class="col-md-11">--%>
-    <%--<div class="tabbable-line boxless tabbable-reversed">--%>
-
-      <%--<div class="portlet light bordered">--%>
-        <%--&lt;%&ndash;<div class="portlet-title">&ndash;%&gt;--%>
-        <%--&lt;%&ndash;<div class="caption">&ndash;%&gt;--%>
-        <%--&lt;%&ndash;<i class="icon-equalizer font-blue-hoki"></i>&ndash;%&gt;--%>
-        <%--&lt;%&ndash;<span class="caption-subject font-blue-hoki bold uppercase">线路查询</span>&ndash;%&gt;--%>
-        <%--&lt;%&ndash;<span class="caption-helper"></span>&ndash;%&gt;--%>
-        <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-        <%--&lt;%&ndash;<div class="tools">&ndash;%&gt;--%>
-        <%--&lt;%&ndash;<a href="" class="collapse"> </a>&ndash;%&gt;--%>
-        <%--&lt;%&ndash;&lt;%&ndash;<a href="#portlet-config" data-toggle="modal" class="config"> </a>&ndash;%&gt;&ndash;%&gt;--%>
-        <%--&lt;%&ndash;&lt;%&ndash;<a href="" class="reload"> </a>&ndash;%&gt;&ndash;%&gt;--%>
-        <%--&lt;%&ndash;&lt;%&ndash;<a href="" class="remove"> </a>&ndash;%&gt;&ndash;%&gt;--%>
-        <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-        <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-        <%--<div class="portlet-body form">--%>
-          <%--<div class="modal fade draggable-modal" id="draggable_ddd" tabindex="-1" role="basic"--%>
-               <%--aria-hidden="true">--%>
-            <%--<div class="modal-dialog">--%>
-              <%--<div class="modal-content">--%>
-                <%--<div class="modal-header">--%>
-                  <%--<button type="button" class="close" data-dismiss="modal"--%>
-                          <%--aria-hidden="true"></button>--%>
-                  <%--<h4 class="modal-title">新建用户</h4>--%>
-                <%--</div>--%>
-                <%--<form action="#" ng-submit="submitForm(rc)" class="form-horizontal ">--%>
-                  <%--<div class="modal-body">--%>
-                    <%--<div class="form-group">--%>
-                      <%--<label class="col-md-4 control-label">名称</label>--%>
-
-                      <%--<div class="col-md-5">--%>
-
-                        <%--<input type="text" ng-model="rc.name" class="form-control"/></div>--%>
-
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                      <%--<label class="col-sm-4 control-label">位置</label>--%>
-
-                      <%--<div class="col-sm-5">--%>
-
-                        <%--<input type="text" ng-model="rc.seat" class="form-control"/></div>--%>
-
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                      <%--<label class="col-sm-4 control-label">隐藏</label>--%>
-
-                      <%--<div class="col-sm-5">--%>
-
-                        <%--&lt;%&ndash;<input type="text"  class="form-control"/>&ndash;%&gt;--%>
-                        <%--<input type="checkbox" ng-model="rc.hide" data-bs-switch checked class="make-switch" data-size="normal">--%>
-                        <%--</p>--%>
-                      <%--</div>--%>
-                    <%--</div>--%>
-                  <%--</div>--%>
-                  <%--<div class="modal-footer">--%>
-                    <%--<button type="button" class="btn dark btn-outline" data-dismiss="modal">取 消--%>
-                    <%--</button>--%>
-                    <%--<button type="submit" class="btn green">保 存</button>--%>
-                  <%--</div>--%>
-                <%--</form>--%>
-
-              <%--</div>--%>
-              <%--<!-- /.modal-content -->--%>
-            <%--</div>--%>
-            <!-- /.modal-dialog -->
-
-
-          <%--<!-- BEGIN FORM-->--%>
-                  <%--&lt;%&ndash;<form action="#" class="horizontal-form">&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;<div class="form-body">&ndash;%&gt;--%>
-                      <%--&lt;%&ndash;<!--/row-->&ndash;%&gt;--%>
-        <%--&lt;%&ndash;&ndash;%&gt;--%>
-                      <%--&lt;%&ndash;<div class="row">&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;<div class="col-md-10">&ndash;%&gt;--%>
-                          <%--&lt;%&ndash;<div class="form-group">&ndash;%&gt;--%>
-                            <%--&lt;%&ndash;<div class="col-md-4">&ndash;%&gt;--%>
-                              <%--&lt;%&ndash;<div class="input-icon">&ndash;%&gt;--%>
-                                <%--&lt;%&ndash;<i class="fa fa-search"></i>&ndash;%&gt;--%>
-                                <%--&lt;%&ndash;<input type="text" placeholder="请输入搜索关键字" class="form-control"></div>&ndash;%&gt;--%>
-                            <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-        <%--&lt;%&ndash;&ndash;%&gt;--%>
-                          <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-        <%--&lt;%&ndash;&ndash;%&gt;--%>
-                      <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-        <%--&lt;%&ndash;&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;&lt;%&ndash;<div class="form-actions left">&ndash;%&gt;&ndash;%&gt;--%>
-        <%--&lt;%&ndash;&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;&lt;%&ndash;<button type="submit" class="btn green">&ndash;%&gt;&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;&lt;%&ndash;<i class="fa fa-search"></i> 筛查&ndash;%&gt;&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;&lt;%&ndash;</button>&ndash;%&gt;&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;&lt;%&ndash;</div>&ndash;%&gt;&ndash;%&gt;--%>
-                  <%--&lt;%&ndash;</form>&ndash;%&gt;--%>
-          <%--<!-- END FORM-->--%>
-        <%--</div>--%>
-      <%--</div>--%>
-
-
-    <%--</div>--%>
-  <%--</div>--%>
 
   <div class="col-md-12">
 
@@ -157,114 +48,6 @@
             <th width="15%" style="text-align: center"> 操作</th>
           </tr>
           </thead>
-          <%--<tbody>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-          <%--<tr>--%>
-            <%--<td> Trident</td>--%>
-            <%--<td> Internet Explorer 4.0</td>--%>
-            <%--<td> Win 95+</td>--%>
-            <%--<td> 4</td>--%>
-            <%--<td> X</td>--%>
-          <%--</tr>--%>
-
-          <%--</tbody>--%>
         </table>
       </div>
     </div>
@@ -400,7 +183,7 @@
             </div>
             <form  name="updateForm" ng-submit="forms.submit(forms.form.update)" class="form-horizontal ">
                 <%--<input type="hidden" ng-model="updateForm.mobile" />--%>
-                <input type="hidden" ng-model="updateForm.lastUpdateTimeTs"/>
+                <input type="hidden" ng-model="forms.form.update.lastUpdateTimeTs"/>
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="col-md-4 control-label">姓名<span class="red">*</span></label>

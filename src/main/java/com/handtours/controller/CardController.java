@@ -1,6 +1,6 @@
 package com.handtours.controller;
 
-import com.handtours.ext.UpFileHandler;
+import com.handtours.common.constants.core.CardStatus;
 import com.handtours.service.api.domain.back.req.bg.user.DeleteUserReq;
 import com.handtours.service.api.domain.back.req.bg.user.QueryUserReq;
 import com.handtours.service.api.domain.back.req.bg.user.SaveUserReq;
@@ -9,41 +9,40 @@ import com.handtours.service.api.domain.back.res.bg.user.DeleteUserRes;
 import com.handtours.service.api.domain.back.res.bg.user.QueryUserRes;
 import com.handtours.service.api.domain.back.res.bg.user.SaveUserRes;
 import com.handtours.service.api.domain.back.res.bg.user.UpdateUserRes;
+import com.handtours.service.api.domain.core.req.card.user.DeleteCardUserReq;
+import com.handtours.service.api.domain.core.req.card.user.QueryCardUserReq;
+import com.handtours.service.api.domain.core.req.card.user.SaveCardUserReq;
+import com.handtours.service.api.domain.core.req.card.user.UpdateCardUserReq;
+import com.handtours.service.api.domain.core.res.card.user.DeleteCardUserRes;
+import com.handtours.service.api.domain.core.res.card.user.QueryCardUserRes;
+import com.handtours.service.api.domain.core.res.card.user.SaveCardUserRes;
+import com.handtours.service.api.domain.core.res.card.user.UpdateCardUserRes;
 import com.handtours.service.api.project.back.IUser;
-import com.handtours.util.SessionAttr;
-import org.apache.commons.lang.StringUtils;
+import com.handtours.service.api.project.core.ICardUser;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
-
 /**
  * Created by zhawei on 2016/7/21.
  */
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/card")
+public class CardController {
     private Logger logger = Logger.getLogger(this.getClass());
 
     @Autowired
-    private IUser iUser;
-
-    @Autowired
-    private UpFileHandler upFileHandler;
-
-    @Autowired
-    private HttpSession session;
+    private ICardUser iUser;
 
     @RequestMapping("/save")
     public
     @ResponseBody
-    SaveUserRes save(SaveUserReq param) {
+    SaveCardUserRes save(SaveCardUserReq param) {
         logger.debug(param);
 
-        SaveUserRes res = iUser.save(param);
+        SaveCardUserRes res = iUser.save(param);
 
         logger.debug(res);
         return res;
@@ -58,11 +57,11 @@ public class UserController {
     @RequestMapping("/query")
     public
     @ResponseBody
-    QueryUserRes query(QueryUserReq param) {
+    QueryCardUserRes query(QueryCardUserReq param) {
         param.setPageSize(Integer.MAX_VALUE);
         logger.debug(param);
 
-        QueryUserRes res = iUser.query(param);
+        QueryCardUserRes res = iUser.query(param);
 
         logger.debug(res);
         return res;
@@ -71,27 +70,27 @@ public class UserController {
     @RequestMapping("/update")
     public
     @ResponseBody
-    UpdateUserRes update(UpdateUserReq param, String mobile, String avatarKey) {
+    UpdateCardUserRes update(UpdateCardUserReq param, String mobile) {
         logger.debug(mobile);
         param.setId(mobile);
-
-        String avatarUrl = avatarKey;
-//        String avatarUrl = param.getAvatarUrl();
-        if (!StringUtils.isEmpty(avatarUrl)) {
-            logger.debug("transform file url:");
-            logger.debug("from key:"+avatarUrl);
-
-            String upPath = "bguser/"+mobile;
-
-            String postPath = upFileHandler.post(avatarUrl, upPath);
-
-            param.setAvatarUrl(postPath);
-            logger.debug("to path:"+postPath);
-        }
-
         logger.debug(param);
 
-        UpdateUserRes res = iUser.update(param);
+        UpdateCardUserRes res = iUser.update(param);
+
+        logger.debug(res);
+        return res;
+    }
+
+    @RequestMapping("/audit")
+    public
+    @ResponseBody
+    UpdateCardUserRes audit(UpdateCardUserReq param, String mobile) {
+        logger.debug(mobile);
+        param.setId(mobile);
+        param.setStatus(CardStatus.AUDITED.getStatus());
+        logger.debug(param);
+
+        UpdateCardUserRes res = iUser.update(param);
 
         logger.debug(res);
         return res;
@@ -100,11 +99,11 @@ public class UserController {
     @RequestMapping("/delete")
     public
     @ResponseBody
-    DeleteUserRes delete(DeleteUserReq param, String mobile) {
+    DeleteCardUserRes delete(DeleteCardUserReq param, String mobile) {
         logger.debug(mobile);
         param.setId(mobile);
         logger.debug(param);
-        DeleteUserRes res = iUser.delete(param);
+        DeleteCardUserRes res = iUser.delete(param);
 
         logger.debug(res);
         return res;

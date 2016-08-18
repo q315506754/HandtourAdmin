@@ -27,7 +27,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <meta content="" name="description" />
     <meta content="" name="author" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <%--<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />--%>
     <link href="${basePath}/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -132,6 +132,8 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="${basePath}/assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
 <script src="${basePath}/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
 <script src="${basePath}/assets/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
+<script src="${basePath}/assets/global/scripts/jQuery.md5.js" type="text/javascript"></script>
+<script src="${basePath}/js/scripts/jquery.form.js" type="text/javascript"></script>
 <!-- END APP LEVEL JQUERY SCRIPTS -->
 <!-- END JAVASCRIPTS -->
 </body>
