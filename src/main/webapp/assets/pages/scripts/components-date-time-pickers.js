@@ -145,6 +145,46 @@ var ComponentsDateTimePickers = function () {
         $('#reportrange span').html(moment().subtract('days', 29).format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
     }
 
+    var handleDateRangePickersByCls = function (cls) {
+        if (!jQuery().daterangepicker) {
+            return;
+        }
+        var fmt = 'YYYY/MM/DD';
+        $('.'+cls).daterangepicker({
+                opens: (App.isRTL() ? 'left' : 'right'),
+                format: fmt,
+                locale : {
+                    applyLabel: '确定',
+                    cancelLabel: '清除',
+                    weekLabel: '周',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    customRangeLabel: '自定义',
+                },
+                separator: ' to ',
+                // startDate: moment().subtract('days', 29),
+                // endDate: moment(),
+                ranges: {
+                    '今天': [moment(), moment()],
+                    '昨天': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                    '最近7天': [moment().subtract('days', 6), moment()],
+                    '最近30天': [moment().subtract('days', 29), moment()],
+                    '本月': [moment().startOf('month'), moment().endOf('month')],
+                    '上月': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                }
+                // ,
+                // minDate: '2012-01-01',
+                // maxDate: '2028-12-31',
+            },
+            function (start, end) {
+                // console.log(this);
+                // console.log($(this));
+                this.element.find('input').val(start.format(fmt) + ' ~ ' + end.format(fmt));
+            }
+        );
+
+    }
+
     var handleDatetimePicker = function () {
 
         if (!jQuery().datetimepicker) {
@@ -221,7 +261,8 @@ var ComponentsDateTimePickers = function () {
             handleDatetimePicker();
             handleDateRangePickers();
             handleClockfaceTimePickers();
-        }
+        },
+        handleDateRangePickersByCls:handleDateRangePickersByCls
     };
 
 }();

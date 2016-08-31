@@ -378,7 +378,9 @@ HandtoursApp.service('crudConfig',['$rootScope','$http', 'alertMsg',function($ro
                 // this.onOpenDefault(this.div[mode]);
                 // console.log(typeof arguments);
                 // console.log( arguments);
-                this.onOpenEvent[mode].apply(this,Array.prototype.slice.call(arguments, 1));
+                var p = Array.prototype.slice.call(arguments, 1);
+                p.push(mode);
+                this.onOpenEvent[mode].apply(this,p);
             },
             postSuccess:function(mode) {
                 if (this.postSuccessEvent[mode]){
@@ -583,15 +585,38 @@ HandtoursApp.config(['$stateProvider', '$urlRouterProvider', function($stateProv
                         name: 'Order',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/angularjs/plugins/ui-select/select.min.css',
-                            '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js'
-                        ]
-                    }, {
-                        name: 'HandtoursApp',
-                        files: [
+                            // '../assets/global/plugins/moment.js',
+                            // '../assets/global/plugins/angularjs/plugins/ui-select/select.min.css',
+                            // '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js',
+
+                            '../assets/global/plugins/datatables/datatables.min.css',
+                            //'../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css',
+                            '../assets/global/css/handtours.css',
+
+                            //'../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js',
+                            '../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js',
+                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            '../assets/global/plugins/datatables/datatables.all.min.js',
+                            '../assets/global/scripts/datatable.js',
+                            // '../assets/pages/scripts/product/route.js',
+
+
+                            '../assets/pages/scripts/order/order.js',
+                            //'js/scripts/table-ajax.js',
+                            '../assets/pages/scripts/components-date-time-pickers.js',
                             'js/controllers/OrderController.js'
+
                         ]
-                    }]);
+                    }
+                    // , {
+                    //     name: 'HandtoursApp',
+                    //     files: [
+                    //         'js/controllers/OrderController.js'
+                    //     ]
+                    // }
+                    ]);
                 }]
             }
         })

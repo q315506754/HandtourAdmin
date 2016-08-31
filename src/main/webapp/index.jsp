@@ -133,6 +133,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="${basePath}/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
 <script src="${basePath}/assets/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
 <script src="${basePath}/assets/global/scripts/jQuery.md5.js" type="text/javascript"></script>
+<script src="${basePath}/assets/global/plugins/moment.min.js" type="text/javascript"></script>
 <script src="${basePath}/js/scripts/jquery.form.js" type="text/javascript"></script>
 <!-- END APP LEVEL JQUERY SCRIPTS -->
 <!-- END JAVASCRIPTS -->

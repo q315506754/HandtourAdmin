@@ -13,4 +13,6 @@
 
     <dubbo:reference id="iCardUserService" interface="com.handtours.service.api.project.core.ICardUser" version="1.0.0"/>
 
+    <dubbo:reference id="iOrderService" interface="com.handtours.service.api.project.core.IOrder" version="1.0.0"/>
+
 </beans>
